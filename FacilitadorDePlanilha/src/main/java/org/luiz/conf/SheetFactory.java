@@ -10,17 +10,26 @@ import java.io.IOException;
 
 public class SheetFactory {
     private String endereco;
+    private Workbook wb;
+    private FileInputStream file;
 
     public SheetFactory(String endereco){
         this.endereco = endereco;
     }
 
     public Sheet criarSheet() throws IOException {
-        FileInputStream arquivo = new FileInputStream(endereco);
-
-        Workbook workbook = WorkbookFactory.create(arquivo);
-        Sheet sheet = workbook.getSheetAt(0);
+        this.file = new FileInputStream(endereco);
+        this.wb = WorkbookFactory.create(file);
+        Sheet sheet = wb.getSheetAt(0);
 
         return sheet;
+    }
+
+    public Workbook getWb(){
+        return wb;
+    }
+
+    public void closeFileInput() throws IOException {
+        file.close();
     }
 }
