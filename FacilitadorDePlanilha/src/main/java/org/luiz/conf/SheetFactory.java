@@ -3,33 +3,34 @@ package org.luiz.conf;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class SheetFactory {
-    private String endereco;
-    private Workbook wb;
-    private FileInputStream file;
+    private static String endereco;
+    private static XSSFWorkbook wb;
+    private static FileInputStream file;
 
-    public SheetFactory(String endereco){
-        this.endereco = endereco;
+
+    public static void configurar(String endereco){
+        SheetFactory.endereco = endereco;
     }
 
-    public Sheet criarSheet() throws IOException {
-        this.file = new FileInputStream(endereco);
-        this.wb = WorkbookFactory.create(file);
+    public static Sheet criarSheet() throws IOException {
+        SheetFactory.file = new FileInputStream(endereco);
+        SheetFactory.wb = (XSSFWorkbook) WorkbookFactory.create(file);
         Sheet sheet = wb.getSheetAt(0);
 
         return sheet;
     }
 
-    public Workbook getWb(){
+    public static Workbook getWb(){
         return wb;
     }
 
-    public void closeFileInput() throws IOException {
+    public static void closeFileInput() throws IOException {
         file.close();
     }
 }
