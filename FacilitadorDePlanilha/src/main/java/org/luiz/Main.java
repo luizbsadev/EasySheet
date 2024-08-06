@@ -21,12 +21,9 @@ public class Main {
 
         Tela.mostrar();
 
+        SheetFactory.close();
 
-        SheetFactory.closeFileInput();
 
-        FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\Felipe\\Downloads\\DELICIAS LANCHES mo.xlsx");
-        SheetFactory.getWb().write(fileOutputStream);
-        fileOutputStream.close();
 
     }
 

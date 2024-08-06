@@ -5,6 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.luiz.conf.SheetFactory;
 import org.luiz.model.Registro;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,10 +134,11 @@ public class SheetService {
         }
     }
 
-    public static void criarEPreencherRegistro(Registro registro){
+    public static void criarEPreencherRegistro(Registro registro) throws IOException {
         int penultimaLinhaIndex = getUltimaLinhaIndex() - 1;
         Row newRow = criarLinha(penultimaLinhaIndex);
         preencherRegistro(registro, newRow);
+        SheetFactory.salvar();
     }
 
 }
