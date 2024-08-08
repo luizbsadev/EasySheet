@@ -12,11 +12,11 @@ import java.util.List;
 
 public class SheetService {
     private static Sheet sheet;
-    private static final Workbook wb = SheetFactory.getWb();
+    private static Workbook wb;
 
     public static void configurar(Sheet sheet){
         SheetService.sheet = sheet;
-
+        SheetService.wb = SheetFactory.getWb();
     }
 
     private static Row criarLinha(int indexLinhaParaDescer) {
@@ -78,20 +78,19 @@ public class SheetService {
         return startRow;
     }
 
-    private static int getUltimaLinhaIndex(){
-//        int lastRowWithContent = 0;
-//        for (int rowIndex = sheet.getLastRowNum(); rowIndex >= 0; rowIndex--) {
-//            Row row = sheet.getRow(rowIndex);
-//            if (row != null) {
-//                Cell cell = row.getCell(0);
-//                if (cell != null && cell.getCellType() != CellType.BLANK) {
-//                    lastRowWithContent = rowIndex;
-//                    break;
-//                }
-//            }
-//        }
-//        return lastRowWithContent;
-        return sheet.getLastRowNum();
+    private static int getPenultimaLinhaIndex(){
+        int lastRowWithContent = 0;
+        for (int rowIndex = sheet.getLastRowNum(); rowIndex >= 0; rowIndex--) {
+            Row row = sheet.getRow(rowIndex);
+            if (row != null) {
+                Cell cell = row.getCell(0);
+                if (cell != null && cell.getCellType() != CellType.BLANK) {
+                    lastRowWithContent = rowIndex;
+                    break;
+                }
+            }
+        }
+        return lastRowWithContent;
     }
 
     private static void preencherRegistro(Registro registro, Row newRow) {
@@ -135,7 +134,6 @@ public class SheetService {
 
     private static void formatarCelula(Cell celula) {
         Cell celulaDeCima = sheet.getRow(celula.getRowIndex() - 1).getCell(celula.getColumnIndex());
-        System.out.println(wb);
         XSSFCellStyle padrão = (XSSFCellStyle) wb.createCellStyle();
         padrão.setDataFormat(wb.createDataFormat().getFormat("R$ #,##0.00"));
 
@@ -148,7 +146,7 @@ public class SheetService {
     }
 
     public static void criarEPreencherRegistro(Registro registro) throws IOException {
-        int penultimaLinhaIndex = getUltimaLinhaIndex() - 1;
+        int penultimaLinhaIndex = getPenultimaLinhaIndex();
         Row newRow = criarLinha(penultimaLinhaIndex);
         preencherRegistro(registro, newRow);
         SheetFactory.salvar();
@@ -160,7 +158,7 @@ public class SheetService {
 
     public static void setArquivo(String arquivo) throws IOException {
         try {
-         SheetFactory.configurar(arquivo);
+            SheetFactory.configurar(arquivo);
             Sheet sheet = SheetFactory.criarSheet();
             SheetService.configurar(sheet);
        }catch (FileNotFoundException e){

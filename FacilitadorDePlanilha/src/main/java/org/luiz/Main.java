@@ -14,7 +14,6 @@ import java.text.ParseException;
 public class Main {
     public static void main(String[] args) throws IOException, ParseException {
         String caminho = "C:\\Users\\Felipe\\Downloads\\DELICIAS LANCHES fe.xlsx";
-        System.out.println(caminho);
         SheetService.setArquivo(caminho);
 
         Tela.mostrar();
