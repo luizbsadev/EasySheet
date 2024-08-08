@@ -1,5 +1,6 @@
 package org.luiz.view;
 
+import org.luiz.conf.SheetFactory;
 import org.luiz.model.Registro;
 import org.luiz.services.SheetService;
 
@@ -12,16 +13,19 @@ public class Tela {
 
 
     public static void mostrar() throws ParseException, IOException {
-        int escolha = menu();
-        switch (escolha){
-            case 1:
-                trocarArquivoTela();
-                break;
-            case 2:
-                escreverRegistroTela();
-                break;
+        if (SheetService.getSheet() != null) {
+            int escolha = menu();
+            switch (escolha) {
+                case 1:
+                    trocarArquivoTela();
+                    break;
+                case 2:
+                    escreverRegistroTela();
+                    break;
+            }
+        }else {
+            trocarArquivoTela("arquivo não encontrado");
         }
-
 
 
     }
@@ -138,13 +142,21 @@ public class Tela {
 
     }
 
-    private static void trocarArquivoTela() {
+    private static void trocarArquivoTela() throws IOException, ParseException {
         System.out.println("Escreva o caminho do arquivo seguindo essa estrutura: C:\\Users\\...\\NOMEDOARQUIVO.xlsx");
-        String arquivo = ler.next();
+        String arquivo = ler.nextLine();
+        System.out.println(arquivo);
+        SheetService.setArquivo(arquivo);
+        mostrar();
+    }
+
+    private static void trocarArquivoTela(String mensagem) throws IOException, ParseException {
+        System.out.println(mensagem);
+        trocarArquivoTela();
     }
 
     private static int menu() {
-        System.out.println("Arquivo selecionado: $$$$");
+        System.out.println("Arquivo selecionado: "+ SheetFactory.getEndereco());
         System.out.println("");
         System.out.println("Escolha uma das opções:");
         System.out.println("1 - Escolher novo arquivo");

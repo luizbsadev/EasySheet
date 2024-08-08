@@ -5,6 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.luiz.conf.SheetFactory;
 import org.luiz.model.Registro;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +79,18 @@ public class SheetService {
     }
 
     private static int getUltimaLinhaIndex(){
-        return sheet.getLastRowNum();
+        int lastRowWithContent = 0;
+        for (int rowIndex = sheet.getLastRowNum(); rowIndex >= 0; rowIndex--) {
+            Row row = sheet.getRow(rowIndex);
+            if (row != null) {
+                Cell cell = row.getCell(0);
+                if (cell != null && cell.getCellType() != CellType.BLANK) {
+                    lastRowWithContent = rowIndex;
+                    break;
+                }
+            }
+        }
+        return lastRowWithContent;
     }
 
     private static void preencherRegistro(Registro registro, Row newRow) {
@@ -141,5 +153,19 @@ public class SheetService {
         SheetFactory.salvar();
     }
 
+    public static Sheet getSheet() {
+        return sheet;
+    }
+
+    public static void setArquivo(String arquivo) throws IOException {
+//        try {
+         SheetFactory.configurar(arquivo);
+            Sheet sheet = SheetFactory.criarSheet();
+            SheetService.configurar(sheet);
+//        }catch (FileNotFoundException e){
+//            System.out.println("Arquivo não encontrado");
+//        }
+        
+    }
 }
 

@@ -43,4 +43,7 @@ public class SheetFactory {
     public static void salvar() throws IOException {
         SheetFactory.getWb().write(outputStream);
     }
+    public static String getEndereco(){
+        return endereco;
+    }
 }
