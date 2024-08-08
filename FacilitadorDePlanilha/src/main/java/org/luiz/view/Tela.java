@@ -17,6 +17,7 @@ public class Tela {
             int escolha = menu();
             switch (escolha) {
                 case 1:
+                    ler.nextLine(); //resolve o bug do nextLine() dps do nextInt()
                     trocarArquivoTela();
                     break;
                 case 2:
@@ -133,6 +134,7 @@ public class Tela {
         System.out.println("2 - Não");
         int resposta = ler.nextInt();
 
+
         switch (resposta){
             case 1:
                 escreverRegistroTela();
@@ -144,9 +146,9 @@ public class Tela {
 
     private static void trocarArquivoTela() throws IOException, ParseException {
         System.out.println("Escreva o caminho do arquivo seguindo essa estrutura: C:\\Users\\...\\NOMEDOARQUIVO.xlsx");
-        String arquivo = ler.nextLine();
-        System.out.println(arquivo);
-        SheetService.setArquivo(arquivo);
+        String caminho = ler.nextLine();
+
+        SheetService.setArquivo(caminho);
         mostrar();
     }
 
