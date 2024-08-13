@@ -12,7 +12,7 @@ public class Tela {
     private static Scanner ler = new Scanner(System.in);
 
 
-    public static void mostrar() throws ParseException, IOException {
+    public static void mostrar() throws ParseException, IOException, InterruptedException {
         if (SheetService.getSheet() != null) {
             int escolha = menu();
             switch (escolha) {
@@ -31,7 +31,8 @@ public class Tela {
 
     }
 
-    private static void escreverRegistroTela() throws ParseException, IOException {
+    private static void escreverRegistroTela() throws ParseException, IOException, InterruptedException {
+        limparTela();
         Registro registro = new Registro();
         System.out.println("Escreva os valores para cada celula:");
         System.out.print("Data:");
@@ -51,7 +52,8 @@ public class Tela {
 
     }
 
-    private static void telaDeConfirmacao(Registro registro) throws ParseException, IOException {
+    private static void telaDeConfirmacao(Registro registro) throws ParseException, IOException, InterruptedException {
+        limparTela();
         System.out.println("Deseja confirmar o salvamento da linha?");
         System.out.println(registro.toString());
         System.out.println("1 - SIM");
@@ -71,7 +73,9 @@ public class Tela {
         }
     }
 
-    private static void editarRegistroTela(Registro registro) throws ParseException, IOException {
+    private static void editarRegistroTela(Registro registro) throws ParseException, IOException, InterruptedException {
+        limparTela();
+        System.out.println(registro.toString());
         System.out.println("Qual coluna vc gostaria de alterar?");
         System.out.println("1 - Data");
         System.out.println("2 - Cartão");
@@ -79,7 +83,7 @@ public class Tela {
         System.out.println("4 - Pix");
         System.out.println("5 - A vista");
         System.out.println("6 - A prazo");
-        System.out.println("7 - Cancelar");
+        System.out.println("0 - Cancelar");
         int resposta = ler.nextInt();
         System.out.println("Digite o novo valor:");
         String novoValor = ler.next();
@@ -106,11 +110,12 @@ public class Tela {
             default:
                 break;
         }
+        limparTela();
         System.out.println(registro.toString());
         System.out.println("Deseja editar mais alguma valor?");
         System.out.println("1 - Sim");
         System.out.println("2 - Salvar");
-        System.out.println("3 - Cancelar");
+        System.out.println("0 - Cancelar");
         int reposta2 = ler.nextInt();
 
         switch (reposta2){
@@ -128,7 +133,8 @@ public class Tela {
         }
     }
 
-    private static void telaDeContinuarAdicionando() throws ParseException, IOException {
+    private static void telaDeContinuarAdicionando() throws ParseException, IOException, InterruptedException {
+        limparTela();
         System.out.println("Deseja adicionar outro registro?");
         System.out.println("1 - Sim");
         System.out.println("2 - Não");
@@ -144,7 +150,8 @@ public class Tela {
 
     }
 
-    private static void trocarArquivoTela() throws IOException, ParseException {
+    private static void trocarArquivoTela() throws IOException, ParseException, InterruptedException {
+        limparTela();
         System.out.println("Escreva o caminho do arquivo seguindo essa estrutura: C:\\Users\\...\\NOMEDOARQUIVO.xlsx");
         String caminho = ler.nextLine();
 
@@ -152,18 +159,26 @@ public class Tela {
         mostrar();
     }
 
-    private static void trocarArquivoTela(String mensagem) throws IOException, ParseException {
+    private static void trocarArquivoTela(String mensagem) throws IOException, ParseException, InterruptedException {
         System.out.println(mensagem);
         trocarArquivoTela();
     }
 
-    private static int menu() {
+    private static int menu() throws IOException, InterruptedException {
+        limparTela();
         System.out.println("Arquivo selecionado: "+ SheetFactory.getEndereco());
         System.out.println("");
         System.out.println("Escolha uma das opções:");
         System.out.println("1 - Escolher novo arquivo");
         System.out.println("2 - Adicionar registro");
         return ler.nextInt();
+    }
+
+    private static void limparTela() throws IOException, InterruptedException {
+        if (System.getProperty("os.name").contains("Windows"))
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        else
+            Runtime.getRuntime().exec("clear");
     }
 
 }

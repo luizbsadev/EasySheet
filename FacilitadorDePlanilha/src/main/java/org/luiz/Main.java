@@ -12,7 +12,7 @@ import java.text.ParseException;
 
 
 public class Main {
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) throws IOException, ParseException, InterruptedException {
         String caminho = "C:\\Users\\Felipe\\Downloads\\DELICIAS LANCHES fe.xlsx";
         SheetService.setArquivo(caminho);
 
