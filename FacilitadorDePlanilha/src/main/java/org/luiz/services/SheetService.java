@@ -8,6 +8,7 @@ import org.luiz.model.Registro;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class SheetService {
@@ -149,7 +150,9 @@ public class SheetService {
         int penultimaLinhaIndex = getPenultimaLinhaIndex();
         Row newRow = criarLinha(penultimaLinhaIndex);
         preencherRegistro(registro, newRow);
+        atualizarFormula();
         SheetFactory.salvar();
+
     }
 
     public static Sheet getSheet() {
@@ -165,6 +168,64 @@ public class SheetService {
             System.out.println("Arquivo não encontrado");
         }
         
+    }
+
+    private static void atualizarFormula(){
+        Row row = sheet.getRow(getPenultimaLinhaIndex());
+        int[] entradaIndexs = procurarEntrada();
+        Cell entradaValor = sheet.getRow(entradaIndexs[0]).getCell(entradaIndexs[1]);
+        Cell saidaValor = sheet.getRow(entradaIndexs[0]+ 1).getCell(entradaIndexs[1]);
+        Cell totalValor = sheet.getRow(entradaIndexs[0] + 2).getCell(entradaIndexs[1]);
+
+        List<Cell> linha = new ArrayList();
+        linha.add(row.getCell(1));
+        linha.add(row.getCell(2));
+        linha.add(row.getCell(3));
+        linha.add(saidaValor);
+
+        linha.forEach(celula -> {
+             String formulaAntiga = celula.getCellFormula();
+            String novaFormula = formulaAntiga.replace(String.valueOf(getPenultimaLinhaIndex() - 1), String.valueOf(getPenultimaLinhaIndex()));
+            celula.setCellFormula(novaFormula);
+        });
+
+        String formulaAntigaEntrada = entradaValor.getCellFormula();
+        String novaFormulaEntrada = formulaAntigaEntrada.replace(String.valueOf(getPenultimaLinhaIndex()), String.valueOf(getPenultimaLinhaIndex() + 1));
+        entradaValor.setCellFormula(novaFormulaEntrada);
+
+        FormulaEvaluator evaluator = sheet.getWorkbook().getCreationHelper().createFormulaEvaluator();
+
+        linha.forEach(celula -> evaluator.evaluateFormulaCell(celula));
+        evaluator.evaluateFormulaCell(entradaValor);
+        evaluator.evaluateFormulaCell(totalValor);
+    }
+
+    private static int[] procurarEntrada(){
+        Iterator<Row> iteratorRow = sheet.rowIterator();
+        int indexRow = 0;
+        int indexColumn = 0;
+
+
+        while (iteratorRow.hasNext()){
+            Row row = iteratorRow.next();
+            Iterator<Cell> iteratorCell = row.iterator();
+            while (iteratorCell.hasNext()){
+                Cell cell = iteratorCell.next();
+                try{
+                    if (cell.getStringCellValue().equals("ENTRADA")){
+                        indexRow = row.getRowNum();
+                        indexColumn = cell.getColumnIndex();
+                    }
+                }catch(Exception e){
+
+                }
+
+            }
+        }
+         int[] indexs = {indexRow, indexColumn + 1};
+
+        return indexs;
+
     }
 }
 
