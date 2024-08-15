@@ -17,9 +17,9 @@ public class SheetFactory {
     private static FileOutputStream outputStream;
 
 
-    public static void configurar(String endereco) throws FileNotFoundException {
+    public static void setEndereco(String endereco) throws FileNotFoundException {
         SheetFactory.endereco = endereco;
-        outputStream = new FileOutputStream("C:\\Users\\Felipe\\Downloads\\DELICIAS LANCHES mo.xlsx");
+
 
 
     }
@@ -41,9 +41,14 @@ public class SheetFactory {
         outputStream.close();
     }
     public static void salvar() throws IOException {
+        outputStream = new FileOutputStream(endereco);
         SheetFactory.getWb().write(outputStream);
     }
     public static String getEndereco(){
         return endereco;
+    }
+
+    public static FileOutputStream getOutputStream() {
+        return outputStream;
     }
 }

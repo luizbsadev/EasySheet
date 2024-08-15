@@ -2,6 +2,8 @@ package org.luiz.view;
 
 import org.luiz.conf.SheetFactory;
 import org.luiz.model.Registro;
+import org.luiz.services.BackupService;
+import org.luiz.services.PathService;
 import org.luiz.services.SheetService;
 
 import java.io.IOException;
@@ -13,7 +15,7 @@ public class Tela {
 
 
     public static void mostrar() throws ParseException, IOException, InterruptedException {
-        if (SheetService.getSheet() != null) {
+        if (SheetService.getSheet() != null && PathService.getPath() != null) {
             int escolha = menu();
             switch (escolha) {
                 case 1:
@@ -46,7 +48,11 @@ public class Tela {
         System.out.print("A vista:");
         registro.setAvista(ler.nextFloat());
         System.out.print("A prazo:");
-        registro.setAprazo(ler.nextFloat());
+        ler.nextLine();
+        String aprazo = ler.nextLine();
+
+        if (aprazo != "")
+            registro.setAprazo(Float.parseFloat(aprazo));
 
         telaDeConfirmacao(registro);
 
@@ -86,26 +92,31 @@ public class Tela {
         System.out.println("0 - Cancelar");
         int resposta = ler.nextInt();
         System.out.println("Digite o novo valor:");
-        String novoValor = ler.next();
+        Float novoValor = null;
+        String novoValorData = null;
+        if (resposta == 1)
+             novoValorData = ler.next();
+        else
+             novoValor = ler.nextFloat();
 
         switch (resposta){
             case 1:
-                registro.setData(novoValor);
+                registro.setData(novoValorData);
                 break;
             case 2:
-                registro.setCartao(Float.parseFloat(novoValor));
+                registro.setCartao(novoValor);
                 break;
             case 3:
-                registro.setDinheiro(Float.parseFloat(novoValor));
+                registro.setDinheiro(novoValor);
                 break;
             case 4:
-                registro.setPix(Float.parseFloat(novoValor));
+                registro.setPix(novoValor);
                 break;
             case 5:
-                registro.setAvista(Float.parseFloat(novoValor));
+                registro.setAvista(novoValor);
                 break;
             case 6:
-                registro.setAprazo(Float.parseFloat(novoValor));
+                registro.setAprazo(novoValor);
                 break;
             default:
                 break;
@@ -154,14 +165,16 @@ public class Tela {
         limparTela();
         System.out.println("Escreva o caminho do arquivo seguindo essa estrutura: C:\\Users\\...\\NOMEDOARQUIVO.xlsx");
         String caminho = ler.nextLine();
+        PathService.setPath(caminho);
 
-        SheetService.setArquivo(caminho);
+        SheetService.setArquivo(PathService.getPath());
         mostrar();
     }
 
     private static void trocarArquivoTela(String mensagem) throws IOException, ParseException, InterruptedException {
         System.out.println(mensagem);
         trocarArquivoTela();
+        BackupService.fazerBackup();
     }
 
     private static int menu() throws IOException, InterruptedException {

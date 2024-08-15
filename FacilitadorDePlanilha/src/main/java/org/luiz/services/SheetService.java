@@ -124,7 +124,8 @@ public class SheetService {
                     celula.setCellValue(registro.getAvista());
                     break;
                 case 6:
-                    celula.setCellValue(registro.getAprazo());
+                    if (registro.getAprazo() != 0)
+                        celula.setCellValue(registro.getAprazo());
                     break;
             };
             formatarCelula(celula);
@@ -161,11 +162,15 @@ public class SheetService {
 
     public static void setArquivo(String arquivo) throws IOException {
         try {
-            SheetFactory.configurar(arquivo);
+            SheetFactory.setEndereco(arquivo);
             Sheet sheet = SheetFactory.criarSheet();
             SheetService.configurar(sheet);
+            PathService.setPath(arquivo);
        }catch (FileNotFoundException e){
+            SheetService.configurar(null);
             System.out.println("Arquivo não encontrado");
+        }catch (NullPointerException e ){
+            System.out.println("Arquivo path em branco");
         }
         
     }

@@ -1,9 +1,6 @@
 package org.luiz.model;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 
 public class Registro {
     private String data;
@@ -57,7 +54,7 @@ public class Registro {
         return aprazo;
     }
 
-    public void setAprazo(float aprazo) {
+    public void setAprazo(Float aprazo) {
         this.aprazo = aprazo;
     }
 
