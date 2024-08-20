@@ -26,11 +26,11 @@ public class PathService {
         bufferedWriter.close();
     }
     private static void criarPasta() {
-        File theDir = new File("..\\path");
+        File theDir = new File("\\path");
         theDir.mkdir();
     }
     private static void criarArquivo() throws IOException {
-        filePath = new File("..\\path\\path.txt");
+        filePath = new File("\\path\\path.txt");
         filePath.createNewFile();
     }
 
