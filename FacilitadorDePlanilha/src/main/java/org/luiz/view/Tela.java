@@ -51,8 +51,10 @@ public class Tela {
         ler.nextLine();
         String aprazo = ler.nextLine();
 
-        if (aprazo != "")
+        if (aprazo != "") {
+            aprazo = aprazo.replace(",", ".");
             registro.setAprazo(Float.parseFloat(aprazo));
+        }
 
         telaDeConfirmacao(registro);
 
@@ -91,7 +93,8 @@ public class Tela {
         System.out.println("6 - A prazo");
         System.out.println("0 - Cancelar");
         int resposta = ler.nextInt();
-        System.out.println("Digite o novo valor:");
+        if(resposta > 0 & resposta < 7)
+            System.out.println("Digite o novo valor:");
         Float novoValor = null;
         String novoValorData = null;
         if (resposta == 1)

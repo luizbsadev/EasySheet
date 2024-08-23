@@ -25,40 +25,41 @@ public class SheetService {
         int numRows = 1;
         int[] columnsToMove = {0, 1, 2, 3, 4, 5, 6};
 
-        for (int rowIndex = sheet.getLastRowNum(); rowIndex >= startRowIndex; rowIndex--) {
+        for (int rowIndex = getPenultimaLinhaIndex(); rowIndex >= startRowIndex; rowIndex--) {
             Row oldRow = sheet.getRow(rowIndex);
             Row newRow = sheet.getRow(rowIndex + numRows);
             if (newRow == null) {
                 newRow = sheet.createRow(rowIndex + numRows);
             }
+            if (oldRow != null) {
+                for (int colIndex : columnsToMove) {
+                    Cell oldCell = oldRow.getCell(colIndex);
+                    Cell newCell = newRow.createCell(colIndex);
 
-            for (int colIndex : columnsToMove) {
-                Cell oldCell = oldRow.getCell(colIndex);
-                Cell newCell = newRow.createCell(colIndex);
+                    if (oldCell != null) {
+                        // Copiar o estilo da célula
+                        newCell.setCellStyle(oldCell.getCellStyle());
 
-                if (oldCell != null) {
-                    // Copiar o estilo da célula
-                    newCell.setCellStyle(oldCell.getCellStyle());
-
-                    // Copiar o valor da célula
-                    switch (oldCell.getCellType()) {
-                        case STRING:
-                            newCell.setCellValue(oldCell.getStringCellValue());
-                            break;
-                        case NUMERIC:
-                            newCell.setCellValue(oldCell.getNumericCellValue());
-                            break;
-                        case BOOLEAN:
-                            newCell.setCellValue(oldCell.getBooleanCellValue());
-                            break;
-                        case FORMULA:
-                            newCell.setCellFormula(oldCell.getCellFormula());
-                            break;
-                        case BLANK:
-                            newCell.setBlank();
-                            break;
-                        default:
-                            throw new IllegalStateException("Unexpected cell type: " + oldCell.getCellType());
+                        // Copiar o valor da célula
+                        switch (oldCell.getCellType()) {
+                            case STRING:
+                                newCell.setCellValue(oldCell.getStringCellValue());
+                                break;
+                            case NUMERIC:
+                                newCell.setCellValue(oldCell.getNumericCellValue());
+                                break;
+                            case BOOLEAN:
+                                newCell.setCellValue(oldCell.getBooleanCellValue());
+                                break;
+                            case FORMULA:
+                                newCell.setCellFormula(oldCell.getCellFormula());
+                                break;
+                            case BLANK:
+                                newCell.setBlank();
+                                break;
+                            default:
+                                throw new IllegalStateException("Unexpected cell type: " + oldCell.getCellType());
+                        }
                     }
                 }
             }

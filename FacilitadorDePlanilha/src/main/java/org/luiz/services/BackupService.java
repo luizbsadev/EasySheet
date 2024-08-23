@@ -11,7 +11,7 @@ public class BackupService {
     public static void fazerBackup() throws IOException {
         try {
             criarPasta();
-            FileOutputStream backup = new FileOutputStream("\\backup\\backup.xlsx");
+            FileOutputStream backup = new FileOutputStream("..\\backup\\backup.xlsx");
             SheetFactory.getWb().write(backup);
         }catch (NullPointerException e){
             System.out.println("Não foi possivel fazer o backup pois o arquivo não foi encontrado");
@@ -19,7 +19,7 @@ public class BackupService {
     }
 
     private static void criarPasta(){
-        File theDir = new File("\\backup");
+        File theDir = new File("..\\backup");
         theDir.mkdir();
     }
 }
