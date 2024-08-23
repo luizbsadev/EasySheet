@@ -14,3 +14,6 @@ https://www.dropbox.com/scl/fi/evsrjhbea8detumzvf8li/EasySheetExemplo.xlsx?rlkey
 
 ### Link para download do exe:
 https://www.dropbox.com/scl/fo/rfa44al48g9bajkbum9ed/ABl8BwVPjHmVp6jayKB8LKs?rlkey=dmi3ptk6p37ouymmgvvko1n4e&st=vfb0kq90&dl=0
+
+## Como usar:
+Depois de instalar o .exe e a planilha, coloque o .exe em duas pastas (uma dentro da outra), isso é necessário para não bagunçar o seu ambiente, quando você iniciar o programa ele vai pedir o path do arquivo, coloque do começo ao fim para n ter erros, o sistema vai gerar uma nova pasta chamada backup assim q ele reconhecer a planilha.
