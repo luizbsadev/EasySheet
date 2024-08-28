@@ -13,7 +13,7 @@ Foi utilizado no desenvolvimento a linguagem java na versão 17, e a biblioteca 
 https://www.dropbox.com/scl/fi/87reagnqgg7kujay5tjco/EasySheetExemplo.xlsx?rlkey=7f5jlys1sgv3drfstqpgqw6eh&st=ha8nm7xd&dl=0
 
 ### Link para download do exe:
-https://www.dropbox.com/scl/fo/rfa44al48g9bajkbum9ed/ABl8BwVPjHmVp6jayKB8LKs?rlkey=dmi3ptk6p37ouymmgvvko1n4e&st=vfb0kq90&dl=0
+https://www.dropbox.com/scl/fo/dmm9f6vfqcddk7d0h8pho/AGWd-DNKIMu389L9HtkIw_k?rlkey=mbdbwx9n6fj2rbl6lpqneo2yb&st=db1lmlfi&dl=0
 
 ## Como usar:
 Após instalar o .exe e a planilha, mova o .exe para duas pastas aninhadas (uma dentro da outra). Isso é necessário para manter seu ambiente organizado. Ao iniciar o programa, ele solicitará o caminho completo do arquivo. Certifique-se de inserir o caminho corretamente para evitar erros. O sistema criará uma nova pasta chamada "backup" assim que reconhecer a planilha.
